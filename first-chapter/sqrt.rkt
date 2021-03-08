@@ -24,9 +24,15 @@
 (define (improve guess x)
         (average guess (/ x guess)))
 
+; check if guess improve difference is enough
+(define (not-improved-guess? guess x)
+  (>
+    0.0001
+    (abs (- guess (improve guess x)))))
+
 ; recursively improve guess unless it is good-enough
 (define (sqrt-iter guess x)
-        (if (good-enough? guess x)
+        (if (or (good-enough? guess x) (not-improved-guess? guess x))
             guess
             (sqrt-iter (improve guess x)
                        x)))
@@ -34,3 +40,5 @@
 ; wrap sqrt-iter
 (define (sqrt x)
   (sqrt-iter 1.0 x))
+
+(sqrt 1000)
